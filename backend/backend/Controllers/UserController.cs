@@ -9,59 +9,56 @@ namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CarsController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly CarSalesContext _context;
 
-        public CarsController(CarSalesContext context)
+        public UserController(CarSalesContext context)
         {
             _context = context;
         }
 
-        // GET: api/Cars
+        // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Car>>> GetCars()
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return await _context.Cars.ToListAsync();
+            return await _context.Users.ToListAsync();
         }
 
-        // GET: api/Cars/5
+        // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Car>> GetCar(int id)
+        public async Task<ActionResult<User>> GetUser(int id)
         {
-            var car = await _context.Cars
-                                    .Include(c => c.CarModel) 
-                                    .ThenInclude(cm => cm.CarBrand)
-                                    .FirstOrDefaultAsync(c => c.Id == id);
+            var user = await _context.Users.FindAsync(id);
 
-            if (car == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return car;
+            return user;
         }
 
-        // POST: api/Cars
+        // POST: api/Users
         [HttpPost]
-        public async Task<ActionResult<Car>> PostCar(Car car)
+        public async Task<ActionResult<User>> PostCar(User user)
         {
-            _context.Cars.Add(car);
+            _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetCar), new { id = car.Id }, car);
+            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
         }
 
-        // PUT: api/Cars/5
+        // PUT: api/Users/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCar(int id, Car car)
+        public async Task<IActionResult> PutUser(int id, User user)
         {
-            if (id != car.Id)
+            if (id != user.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(car).State = EntityState.Modified;
+            _context.Entry(user).State = EntityState.Modified;
 
             try
             {
@@ -82,17 +79,17 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        // DELETE: api/Cars/5
+        // DELETE: api/Users/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCar(int id)
+        public async Task<IActionResult> DeleteUser(int id)
         {
-            var car = await _context.Cars.FindAsync(id);
-            if (car == null)
+            var user = await _context.Cars.FindAsync(id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            _context.Cars.Remove(car);
+            _context.Cars.Remove(user);
             await _context.SaveChangesAsync();
 
             return NoContent();

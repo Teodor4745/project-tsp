@@ -1,1 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+$color_primary: #222831;
+$color_primary_lighter: #31363F;
+$color_secondary: #EEEEEE;
+$color_third: #76ABAE;
+
+.text-justify {
+    text-align: justify;
+}
+
+.btn-primary {
+    background-color: $color_primary !important;
+    outline: 0px;
+    box-shadow: 0px;
+    border: 0px;
+
+    &:hover {
+        background-color: $color_primary_lighter !important;
+    }
+}

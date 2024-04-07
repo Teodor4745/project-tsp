@@ -1,0 +1,29 @@
+$color_primary: #222831;
+$color_primary_lighter: #31363F;
+$color_secondary: #EEEEEE;
+$color_third: #76ABAE;
+
+nav {
+    background-color: $color_primary !important;
+    color: #fff;
+
+    .navbar-brand {
+        max-width: 100px;
+    }
+
+    .nav-link {
+        color: #fff;
+
+        &:hover {
+            color: #fafafa;
+            cursor: pointer;
+        }
+    }
+}
+
+footer {
+    background-color: $color_primary;
+    color: #fff;
+    text-align: center;
+    padding: 15px;
+}
