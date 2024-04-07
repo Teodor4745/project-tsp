@@ -1,0 +1,17 @@
+$color_primary: #222831;
+$color_primary_lighter: #31363F;
+$color_secondary: #EEEEEE;
+$color_third: #76ABAE;
+
+a {
+    color: $color_primary !important;
+    transition: 0.3s;
+    &:hover {
+        color: $color_primary_lighter !important;
+    }
+}
+
+a {
+    text-decoration: none;
+    font-weight: bold;
+}
