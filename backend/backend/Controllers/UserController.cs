@@ -94,5 +94,42 @@ namespace backend.Controllers
 
             return NoContent();
         }
+
+        // POST: api/Users/register
+        [HttpPost("register")]
+        public async Task<ActionResult<User>> Register(User user)
+        {
+            // Check if the user already exists
+            if (_context.Users.Any(u => u.Username == user.Username))
+            {
+                return BadRequest("Username already exists.");
+            }
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            // Do not return the password in the response
+            user.Password = null;
+            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
+        }
+
+        // POST: api/Users/login
+        [HttpPost("login")]
+        public async Task<ActionResult<User>> Login(User login)
+        {
+            var user = await _context.Users
+                                     .FirstOrDefaultAsync(u => u.Username == login.Username && u.Password == login.Password);
+
+            if (user == null)
+            {
+                return Unauthorized("Invalid username or password.");
+            }
+
+            // Do not return the password in the response
+            user.Password = null;
+            return user;
+        }
+
+
     }
 }
