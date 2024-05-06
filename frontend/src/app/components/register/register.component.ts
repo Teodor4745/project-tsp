@@ -16,20 +16,31 @@ export class RegisterComponent {
   email: string = '';
   password: string = '';
   error: string = '';
+  success: string = '';
 
   constructor(private http: HttpClient, private router: Router) {}
 
   register() {
-    this.http.post<any>('/api/users/register', { username: this.username, email: this.email, password: this.password })
+    this.error = '';
+    this.success = '';
+    this.http.post<any>('https://localhost:7165/api/User/register', {
+      username: this.username,
+      email: this.email,
+      password: this.password
+    })
       .pipe(
         catchError(err => {
-          this.error = 'Error during registration';
+          console.error(err);
+          this.error = 'Грешка при регистрация! Моля, опитайте по-късно!';
           return throwError(() => err);
         })
       )
       .subscribe({
         next: (res) => {
-          this.router.navigate(['/login']); // Adjust as per your route
+          this.success = 'Успешно създаден профил!';
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 2000); 
         }
       });
   }

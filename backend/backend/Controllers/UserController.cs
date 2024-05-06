@@ -4,6 +4,7 @@ using backend.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using backend.Models;
+using backend.DTO;
 
 namespace backend.Controllers
 {
@@ -115,10 +116,10 @@ namespace backend.Controllers
 
         // POST: api/Users/login
         [HttpPost("login")]
-        public async Task<ActionResult<User>> Login(User login)
+        public async Task<ActionResult<User>> Login([FromBody] LoginDTO loginDTO)
         {
             var user = await _context.Users
-                                     .FirstOrDefaultAsync(u => u.Username == login.Username && u.Password == login.Password);
+                                     .FirstOrDefaultAsync(u => u.Username == loginDTO.Username && u.Password == loginDTO.Password);
 
             if (user == null)
             {
@@ -127,7 +128,7 @@ namespace backend.Controllers
 
             // Do not return the password in the response
             user.Password = null;
-            return user;
+            return Ok(user);  // It's a good practice to return Ok() with the data
         }
 
 
