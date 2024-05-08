@@ -22,7 +22,11 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Car>>> GetCars()
         {
-            return await _context.Cars.ToListAsync();
+            var cars = await _context.Cars
+                                      .Include(c => c.CarModel)
+                                      .ThenInclude(cm => cm.CarBrand)
+                                      .ToListAsync();
+            return cars;
         }
 
         // GET: api/Cars/5
@@ -97,5 +101,30 @@ namespace backend.Controllers
 
             return NoContent();
         }
+
+        [HttpPost]
+        [Route("upload")]
+        public async Task<IActionResult> UploadCarImage([FromForm] int carId, [FromForm] IFormFile file)
+        {
+            var car = await _context.Cars.FindAsync(carId);
+            if (car == null)
+            {
+                return NotFound();
+            }
+
+            // Assuming images are stored in wwwroot/images
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", file.FileName);
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            car.ImageUrl = $"images/{file.FileName}";
+            await _context.SaveChangesAsync();
+
+            return Ok(new { path = car.ImageUrl });
+        }
+
     }
 }

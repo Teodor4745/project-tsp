@@ -6,6 +6,5 @@
         public string Name { get; set; }
         public int CarBrandId { get; set; }
         public CarBrand CarBrand { get; set; }
-        public List<Car> Cars { get; set; } = new List<Car>();
     }
 }

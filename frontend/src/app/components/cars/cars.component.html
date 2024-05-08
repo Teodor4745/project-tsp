@@ -1,1 +1,9 @@
-<p>cars works!</p>
+<!-- src/app/cars/cars.component.html -->
+<div *ngIf="cars.length; else noCars">
+    <div *ngFor="let car of cars">
+      <p>{{ car.modelName }} - {{ car.year }} - {{ car.color }}</p>
+      <button (click)="orderCar(car.id)">Order This Car</button>
+    </div>
+  </div>
+  <ng-template #noCars><p>No cars available.</p></ng-template>
+  

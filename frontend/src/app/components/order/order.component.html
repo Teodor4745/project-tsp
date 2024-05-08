@@ -1,0 +1,10 @@
+<!-- src/app/orders/orders.component.html -->
+<div *ngIf="orders.length; else noOrders">
+    <ul>
+      <li *ngFor="let order of orders">
+        {{ order.car.modelName }} ordered on {{ order.orderDate }}
+      </li>
+    </ul>
+  </div>
+  <ng-template #noOrders><p>No orders made.</p></ng-template>
+  

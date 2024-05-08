@@ -11,7 +11,10 @@
       </div>
   
       <button type="submit">Login</button>
-      <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+      <div class="container mt-4">
+        <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+        <div *ngIf="success" class="alert alert-success">{{ success }}</div>
+      </div>
     </form>
   </div>
   

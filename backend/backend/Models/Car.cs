@@ -7,6 +7,7 @@
         public int Year { get; set; }
         public decimal Price { get; set; }
         public int CarModelId { get; set; }
+        public string? ImageUrl { get; set; }
         public CarModel CarModel { get; set; }
     }
 }

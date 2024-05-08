@@ -1,8 +1,8 @@
 // src/app/auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { LocalStorageService } from './localstorage.service';
 
 @Injectable({
@@ -13,7 +13,7 @@ export class AuthService {
   public currentUser: Observable<any>;
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
-    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(this.localStorageService.getItem('currentUser') ?? 'null'));
+    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(this.localStorageService.getItem('user') ?? 'null'));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -22,27 +22,34 @@ export class AuthService {
   }
 
   register(username: string, email: string, password: string) {
-    return this.http.post<any>(`/api/users/register`, { username, email, password })
-      .pipe(map(user => {
-        if (user && user.token) {
-          this.localStorageService.setItem('currentUser', JSON.stringify(user));
-          this.currentUserSubject.next(user);
-        }
-        return user;
-      }));
+    return this.http.post<any>(`https://localhost:7165/api/User/register`, { username, email, password })
+      .pipe(
+        catchError(err => {
+          console.error('Registration error:', err);
+          return throwError(() => new Error('Грешка при регистрация! Моля, опитайте по-късно!'));
+        }),
+        map(user => {
+          return user;
+        })
+      );
   }
 
   login(username: string, password: string) {
-    return this.http.post<any>(`/api/users/login`, { username, password })
-      .pipe(map(user => {
-        this.localStorageService.setItem('currentUser', JSON.stringify(user));
-        this.currentUserSubject.next(user);
-        return user;
-      }));
+    return this.http.post<any>('https://localhost:7165/api/User/login', { username, password })
+      .pipe(
+        catchError(err => {
+          return throwError(() => new Error('Грешка при влизане!'));
+        }),
+        map(res => {
+          this.localStorageService.setItem('user', JSON.stringify(res));
+          this.currentUserSubject.next(res);
+          return res;
+        })
+      );
   }
 
   logout() {
-    this.localStorageService.removeItem('currentUser');
-    this.currentUserSubject.next(null);
+    this.localStorageService.removeItem('user');
+    this.currentUserSubject.next(null); 
   }
 }

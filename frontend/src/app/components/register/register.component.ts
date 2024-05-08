@@ -1,7 +1,8 @@
+// src/app/register/register.component.ts
+
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -18,30 +19,21 @@ export class RegisterComponent {
   error: string = '';
   success: string = '';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   register() {
     this.error = '';
     this.success = '';
-    this.http.post<any>('https://localhost:7165/api/User/register', {
-      username: this.username,
-      email: this.email,
-      password: this.password
-    })
-      .pipe(
-        catchError(err => {
-          console.error(err);
-          this.error = 'Грешка при регистрация! Моля, опитайте по-късно!';
-          return throwError(() => err);
-        })
-      )
-      .subscribe({
-        next: (res) => {
-          this.success = 'Успешно създаден профил!';
-          setTimeout(() => {
-            this.router.navigate(['/login']);
-          }, 2000); 
-        }
-      });
+    this.authService.register(this.username, this.email, this.password).subscribe({
+      next: (res) => {
+        this.success = 'Успешно създаден профил!';
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 2000); // Redirect to login after successful registration
+      },
+      error: (err) => {
+        this.error = 'Грешка при регистрация! Моля, опитайте по-късно!';
+      }
+    });
   }
 }

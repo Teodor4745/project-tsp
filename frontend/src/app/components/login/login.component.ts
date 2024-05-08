@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { LocalStorageService } from '../../services/localstorage.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,26 +19,21 @@ export class LoginComponent {
   error: string = '';
   success: string = ''; 
 
-  constructor(private http: HttpClient, private router: Router, private localStorageService: LocalStorageService) {}
+  constructor(private http: HttpClient, private router: Router, private localStorageService: LocalStorageService, private authService: AuthService) {}
 
   login() {
-    this.error = ''; 
+    this.error = '';
     this.success = '';
-    this.http.post<any>('https://localhost:7165/api/User/login', { username: this.username, password: this.password }) // Ensure the URL is correct
-      .pipe(
-        catchError(err => {
-          this.error = 'Username or password is incorrect';
-          return throwError(() => err);
-        })
-      )
-      .subscribe({
-        next: (res) => {
-          this.localStorageService.setItem('user', JSON.stringify(res)); 
-          this.success = 'Login successful!';
-          setTimeout(() => {
-            this.router.navigate(['/']); 
-          }, 2000); 
-        }
-      });
+    this.authService.login(this.username, this.password).subscribe({
+      next: (res) => {
+        this.success = 'Успешен вход!';
+        setTimeout(() => {
+          this.router.navigate(['/']);
+        }, 2000);
+      },
+      error: (err) => {
+        this.error = 'Грешка при вход!';
+      }
+    });
   }
 }

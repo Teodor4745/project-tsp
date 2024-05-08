@@ -17,8 +17,12 @@ export class AppComponent {
   currentUser: any = null;
 
   constructor(private authService: AuthService) {
-    this.authService.currentUser?.subscribe(x => this.currentUser = x);
+    this.authService.currentUser.subscribe(user => {
+      this.currentUser = user;
+      console.log('Current user:', this.currentUser);
+    });
   }
+
 
   logout() {
     this.authService.logout();
