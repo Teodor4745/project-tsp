@@ -1,0 +1,33 @@
+<div class="container">
+    <h2 class="mt-4">Добавете марка:</h2>
+    <form [formGroup]="carBrandForm" (ngSubmit)="createCarBrand()">
+        <input type="text" formControlName="name" placeholder="Име на марка" class="form-control">
+        <button class="btn btn-primary mt-3" type="submit">Добавете марка</button>
+    </form>
+
+    <h2 class="mt-4">Добавете модел:</h2>
+    <form [formGroup]="carModelForm" (ngSubmit)="createCarModel()">
+        <input type="text" formControlName="name" placeholder="Име на модел" class="form-control">
+        <label class="mt-2">Изберете марка:</label>
+        <select formControlName="carBrandId" class="form-control mb-2">
+            <option *ngFor="let brand of carBrands" [value]="brand.id">{{ brand.name }}</option>
+        </select>
+        <button class="btn btn-primary mt-3" type="submit">Добавете модел</button>
+    </form>
+
+    <h2 class="mt-4">Добавете автомобил:</h2>
+    <form [formGroup]="carForm" (ngSubmit)="uploadCar()" class="mb-5">
+        <input type="text" formControlName="color" placeholder="Цвят" class="form-control my-1">
+        <input type="number" formControlName="year" placeholder="Година" class="form-control my-1">
+        <input type="number" formControlName="kilometers" placeholder="Порбег (км)" class="form-control my-1">
+        <input type="number" formControlName="price" placeholder="Цена" class="form-control my-1">
+        <label>Изберете модел:</label>
+        <select formControlName="carModelId" class="form-control mb-3">
+            <option *ngFor="let model of carModels" [value]="model.id">{{ model.name }}</option>
+        </select>
+        <div class="mb-4">
+            <input type="file" (change)="onFileSelected($event)" formControlName="image">
+        </div>
+        <button class="mt-2 btn btn-primary" type="submit">Добавете автомобил</button>
+    </form>
+</div>

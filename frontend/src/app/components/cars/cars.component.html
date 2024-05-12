@@ -1,9 +1,57 @@
 <!-- src/app/cars/cars.component.html -->
-<div *ngIf="cars.length; else noCars">
-    <div *ngFor="let car of cars">
-      <p>{{ car.modelName }} - {{ car.year }} - {{ car.color }}</p>
-      <button (click)="orderCar(car.id)">Order This Car</button>
+<div class="alert alert-primary" *ngIf="!currentUser">
+  Трябва да влзете като потребител за да изберете автомобили за резервация!
+</div>
+
+<div class="text-center mt-5">
+  <button (click)="orderCars()" class="btn btn-primary" *ngIf="selectedCars.length > 0">Резервирай избраните автомобили</button>
+</div>
+<div class="my-5" *ngIf="cars.length">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4" *ngFor="let car of cars">
+          <div class="card w-100">
+            <img [src]="'http://localhost:5020/' + car.imageUrl" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{car.carModel.carBrand.name + ' ' + car.carModel.name}}</h5>
+              <p class="m-0">
+                <span class="fw-bold">
+                  Цвят:
+                </span> 
+                {{car.color}}
+              </p>
+              <p class="m-0">
+                <span class="fw-bold">
+                  Година:
+                </span> 
+                 {{car.year}}
+              </p>
+              <p class="m-0">
+                <span class="fw-bold">
+                  Цена:
+                </span> 
+                {{car.price}} лв.
+              </p>
+              <p>
+                <span class="fw-bold">
+                  Пробег:
+                </span> 
+                {{car.kilometers}} км.
+              </p>
+              <button class="btn btn-primary" (click)="toggleCarSelection(car)" *ngIf="currentUser?.role?.name === 'User'">
+                {{ isCarSelected(car.id) ? 'Премахни' : 'Избери' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  <ng-template #noCars><p>No cars available.</p></ng-template>
+</div>
+<div class="alert alert-warning" *ngIf="!cars.length">
+  Няма намерени резултати.
+</div>
+
+<div class="text-center mb-5">
+  <button (click)="orderCars()" class="btn btn-primary" *ngIf="selectedCars.length > 0">Резервирай избраните автомобили</button>
+</div>
   

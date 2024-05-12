@@ -13,9 +13,12 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule]
 })
 export class RegisterComponent {
+  firstname: string = '';
+  lastname: string = '';
   username: string = '';
   email: string = '';
   password: string = '';
+  phone: string = '';
   error: string = '';
   success: string = '';
 
@@ -24,15 +27,15 @@ export class RegisterComponent {
   register() {
     this.error = '';
     this.success = '';
-    this.authService.register(this.username, this.email, this.password).subscribe({
+    this.authService.register(this.firstname, this.lastname, this.username, this.email, this.phone, this.password).subscribe({
       next: (res) => {
         this.success = 'Успешно създаден профил!';
         setTimeout(() => {
           this.router.navigate(['/login']);
-        }, 2000); // Redirect to login after successful registration
+        }, 2000); 
       },
       error: (err) => {
-        this.error = 'Грешка при регистрация! Моля, опитайте по-късно!';
+        this.error = 'Грешка при регистрация!';
       }
     });
   }

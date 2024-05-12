@@ -29,7 +29,7 @@ export class LoginComponent {
         this.success = 'Успешен вход!';
         setTimeout(() => {
           this.router.navigate(['/']);
-        }, 2000);
+        }, 1000);
       },
       error: (err) => {
         this.error = 'Грешка при вход!';

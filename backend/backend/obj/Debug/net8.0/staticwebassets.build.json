@@ -1,11 +1,58 @@
 {
   "Version": 1,
-  "Hash": "7/yvsnDRTixX0vVer35KSjS1HzfM4rGxA/gc1emwSdw=",
+  "Hash": "hRG9hY3DRhf0AkVWXS6acJAVw2z2JkFi62AZWSIL1so=",
   "Source": "backend",
   "BasePath": "_content/backend",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "backend\\wwwroot",
+      "Source": "backend",
+      "ContentRoot": "C:\\Users\\theod\\Desktop\\TU\\repos\\project-tsp\\backend\\backend\\wwwroot\\",
+      "BasePath": "_content/backend",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\theod\\Desktop\\TU\\repos\\project-tsp\\backend\\backend\\wwwroot\\images\\2005-Audi-A6-Sedan-Red-Press-Image-1001x565p.jpg",
+      "SourceId": "backend",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\theod\\Desktop\\TU\\repos\\project-tsp\\backend\\backend\\wwwroot\\",
+      "BasePath": "_content/backend",
+      "RelativePath": "images/2005-Audi-A6-Sedan-Red-Press-Image-1001x565p.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\2005-Audi-A6-Sedan-Red-Press-Image-1001x565p.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\theod\\Desktop\\TU\\repos\\project-tsp\\backend\\backend\\wwwroot\\images\\2022-mazda-cx-5-2p5-turbo-signature-123-1657559083.jpg",
+      "SourceId": "backend",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\theod\\Desktop\\TU\\repos\\project-tsp\\backend\\backend\\wwwroot\\",
+      "BasePath": "_content/backend",
+      "RelativePath": "images/2022-mazda-cx-5-2p5-turbo-signature-123-1657559083.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\2022-mazda-cx-5-2p5-turbo-signature-123-1657559083.jpg"
+    }
+  ]
 }

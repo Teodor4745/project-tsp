@@ -4,7 +4,7 @@
     <a class="navbar-brand" routerLink="/">
       <img class="w-100" src="../assets/img/logo.png" alt="Logo">
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" data-bs-theme="dark">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
@@ -16,20 +16,36 @@
           <a class="nav-link px-4 fs-6" routerLink="/about">За нас</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link px-4 fs-6" routerLink="/cars">Коли</a>
+          <a class="nav-link px-4 fs-6" routerLink="/cars">Автомобили</a>
         </li>
         <li class="nav-item">
           <a class="nav-link px-4 fs-6" routerLink="/contact">Контакти</a>
         </li>
+        <li *ngIf="currentUser?.role?.name === 'Admin'">
+          <a class="nav-link px-4 fs-6" routerLink="/panel">Панел</a>
+        </li>
+        <li *ngIf="currentUser">
+          <a class="nav-link px-4 fs-6" routerLink="/orders">Резервации</a>
+        </li>
         <li *ngIf="!currentUser" class="nav-item">
-          <a class="nav-link px-4 fs-6" routerLink="/login">Логин</a>
+          <a class="nav-link px-4 fs-6" routerLink="/login">Вход</a>
         </li>
         <li *ngIf="!currentUser" class="nav-item">
           <a class="nav-link px-4 fs-6" routerLink="/register">Регистрация</a>
         </li>
-        <li *ngIf="currentUser" class="nav-item">
-          <a class="nav-link px-4 fs-6" (click)="logout()">Изход</a>
+        <li class="nav-item pt-2 px-4" *ngIf="currentUser?.firstname?.length && currentUser?.lastname?.length">
+          <i class="fa-solid fa-user"></i>
+          <span>
+            {{currentUser.firstname + ' ' + currentUser.lastname}}
+          </span>
         </li>
+        <li *ngIf="currentUser" class="nav-item">
+          <a class="nav-link px-4 fs-6" (click)="logout()">
+            <i class="fa-solid fa-door-open"></i>
+            Изход
+          </a>
+        </li>
+        
       </ul>
     </div>
   </div>

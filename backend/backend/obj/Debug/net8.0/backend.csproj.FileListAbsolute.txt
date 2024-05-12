@@ -103,3 +103,4 @@ C:\Users\theod\Desktop\TU\repos\project-tsp\backend\backend\obj\Debug\net8.0\bac
 C:\Users\theod\Desktop\TU\repos\project-tsp\backend\backend\obj\Debug\net8.0\backend.genruntimeconfig.cache
 C:\Users\theod\Desktop\TU\repos\project-tsp\backend\backend\obj\Debug\net8.0\ref\backend.dll
 C:\Users\theod\Desktop\TU\repos\project-tsp\backend\backend\obj\Debug\net8.0\backend.sourcelink.json
+C:\Users\theod\Desktop\TU\repos\project-tsp\backend\backend\bin\Debug\net8.0\backend.staticwebassets.runtime.json

@@ -33,8 +33,10 @@ namespace backend.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int>("Kilometers")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
@@ -127,6 +129,21 @@ namespace backend.Migrations
                     b.ToTable("OrderItems");
                 });
 
+            modelBuilder.Entity("backend.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+                });
+
             modelBuilder.Entity("backend.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -137,9 +154,24 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Firstname")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Lastname")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -147,13 +179,15 @@ namespace backend.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RoleId");
+
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("backend.Models.Car", b =>
                 {
                     b.HasOne("backend.Models.CarModel", "CarModel")
-                        .WithMany("Cars")
+                        .WithMany()
                         .HasForeignKey("CarModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -164,7 +198,7 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Models.CarModel", b =>
                 {
                     b.HasOne("backend.Models.CarBrand", "CarBrand")
-                        .WithMany("CarModels")
+                        .WithMany()
                         .HasForeignKey("CarBrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -175,7 +209,7 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Models.Order", b =>
                 {
                     b.HasOne("backend.Models.User", "User")
-                        .WithMany("Orders")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -191,35 +225,29 @@ namespace backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("backend.Models.Order", "Order")
+                    b.HasOne("backend.Models.Order", null)
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Car");
-
-                    b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("backend.Models.CarBrand", b =>
+            modelBuilder.Entity("backend.Models.User", b =>
                 {
-                    b.Navigation("CarModels");
-                });
+                    b.HasOne("backend.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-            modelBuilder.Entity("backend.Models.CarModel", b =>
-                {
-                    b.Navigation("Cars");
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("backend.Models.Order", b =>
                 {
                     b.Navigation("OrderItems");
-                });
-
-            modelBuilder.Entity("backend.Models.User", b =>
-                {
-                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

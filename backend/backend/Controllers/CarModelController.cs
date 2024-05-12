@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using backend.Models;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.DTO;
 
 namespace backend.Controllers
 {
@@ -40,8 +41,19 @@ namespace backend.Controllers
 
         // POST: api/CarModel
         [HttpPost]
-        public async Task<ActionResult<CarModel>> PostCarModel(CarModel carModel)
+        public async Task<ActionResult<CarModel>> PostCarModel([FromBody] CarModelDTO carModelDTO)
         {
+            if (!_context.CarBrands.Any(cb => cb.Id == carModelDTO.CarBrandId))
+            {
+                return BadRequest("Invalid Car Brand ID");
+            }
+
+            var carModel = new CarModel
+            {
+                Name = carModelDTO.Name,
+                CarBrandId = carModelDTO.CarBrandId
+            };
+
             _context.CarModels.Add(carModel);
             await _context.SaveChangesAsync();
 

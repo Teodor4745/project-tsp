@@ -9,6 +9,7 @@ import { LocalStorageService } from './localstorage.service';
   providedIn: 'root'
 })
 export class AuthService {
+  private baseUrl = 'https://localhost:7165/api';
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
 
@@ -21,11 +22,10 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
-  register(username: string, email: string, password: string) {
-    return this.http.post<any>(`https://localhost:7165/api/User/register`, { username, email, password })
+  register(firstname: string, lastname:string, username: string, email: string, phone: string, password: string) {
+    return this.http.post<any>(`${this.baseUrl}/User/register`, { firstname, lastname,username, email, phone, password })
       .pipe(
         catchError(err => {
-          console.error('Registration error:', err);
           return throwError(() => new Error('Грешка при регистрация! Моля, опитайте по-късно!'));
         }),
         map(user => {
@@ -35,7 +35,7 @@ export class AuthService {
   }
 
   login(username: string, password: string) {
-    return this.http.post<any>('https://localhost:7165/api/User/login', { username, password })
+    return this.http.post<any>(`${this.baseUrl}/User/login`, { username, password })
       .pipe(
         catchError(err => {
           return throwError(() => new Error('Грешка при влизане!'));

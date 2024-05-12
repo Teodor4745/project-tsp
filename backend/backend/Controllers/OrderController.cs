@@ -4,6 +4,7 @@ using backend.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using backend.Models;
+using backend.DTO;
 
 namespace backend.Controllers
 {
@@ -18,11 +19,35 @@ namespace backend.Controllers
             _context = context;
         }
 
+        // GET: api/Users/All
+        [HttpGet]
+        [Route("All")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetAllOrders()
+        {
+            var orders = await _context.Orders
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Car)
+                    .ThenInclude(c => c.CarModel)
+                    .ThenInclude(cm => cm.CarBrand)
+                .Include(u => u.User)
+                .ToListAsync();
+
+            return orders;
+        }
+
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrders(int userId)
         {
-            return await _context.Orders.ToListAsync();
+            var orders = await _context.Orders
+                .Where(o => o.UserId == userId) 
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Car)
+                    .ThenInclude(c => c.CarModel)
+                    .ThenInclude(cm => cm.CarBrand)
+                .ToListAsync();
+
+            return orders;
         }
 
         // GET: api/Orders/5
@@ -41,8 +66,24 @@ namespace backend.Controllers
 
         // POST: api/Orders
         [HttpPost]
-        public async Task<ActionResult<Order>> PostCar(Order order)
+        public async Task<ActionResult<Order>> PostOrder([FromBody] OrderDTO orderDto)
         {
+            if (!_context.Users.Any(u => u.Id == orderDto.UserId))
+            {
+                return BadRequest("Invalid User ID");
+            }
+
+            var order = new Order
+            {
+                OrderDate = DateTime.Now,
+                UserId = orderDto.UserId,
+                OrderItems = orderDto.OrderItems.Select(oi => new OrderItem
+                {
+                    CarId = oi.CarId,
+                    Price = oi.Price
+                }).ToList()
+            };
+
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
 

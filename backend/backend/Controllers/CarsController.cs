@@ -4,6 +4,7 @@ using backend.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using backend.Models;
+using backend.DTO;
 
 namespace backend.Controllers
 {
@@ -124,6 +125,37 @@ namespace backend.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(new { path = car.ImageUrl });
+        }
+
+        [HttpPost]
+        [Route("createwithimage")]
+        public async Task<ActionResult<Car>> CreateCarWithImage([FromForm] CarInputDTO carInput, [FromForm] IFormFile file)
+        {
+            if (file == null || carInput == null)
+            {
+                return BadRequest("Invalid car data or file.");
+            }
+
+            var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", file.FileName);
+            using (var stream = new FileStream(imagePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            var car = new Car
+            {
+                Color = carInput.Color,
+                Year = carInput.Year,
+                Price = carInput.Price,
+                CarModelId = carInput.CarModelId,
+                Kilometers = carInput.Kilometers,
+                ImageUrl = $"images/{file.FileName}"  
+            };
+
+            _context.Cars.Add(car);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetCar), new { id = car.Id }, car);
         }
 
     }

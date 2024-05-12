@@ -1,10 +1,62 @@
-<!-- src/app/orders/orders.component.html -->
-<div *ngIf="orders.length; else noOrders">
-    <ul>
-      <li *ngFor="let order of orders">
-        {{ order.car.modelName }} ordered on {{ order.orderDate }}
-      </li>
-    </ul>
-  </div>
-  <ng-template #noOrders><p>No orders made.</p></ng-template>
+<div class="my-5">
+    <h2 class="text-center mb-2">Резервации</h2>
+
+    <div *ngIf="orders.length">
+      <div *ngFor="let order of orders; let index = index">
+          <div [class.bg-secondary]="index % 2 === 0" [class.text-white]="index % 2 === 0" class="p-3 border">
+            <div *ngIf="currentUser?.role?.name === 'Admin'" class="mb-3">
+              <span class="fw-bold">
+                Потребител: 
+              </span>
+              {{ order.user?.username}}
+
+              <span class="fw-bold ms-4" *ngIf="order?.user?.phone">
+                Телефон: 
+              </span>
+              {{ order.user?.phone}}
+
+              <span class="fw-bold ms-4">
+                Електронна поща: 
+              </span>
+              {{ order.user?.email}}
+              <hr>
+            </div>
+            <p>
+              <span class="fw-bold">
+                Дата: 
+              </span>
+              {{ order.orderDate | bulgarianDate }}
+            </p>
+            <p class="fw-bold">Автомобили:</p>
+            <div class="ms-3">
+                <div *ngFor="let orderItem of order.orderItems" class="d-flex justify-content-between align-items-center py-1">
+                    <div>
+                      <span class="p-2"> 
+                        <span class="fw-bold">
+                          {{orderItem.car.carModel.carBrand.name}}
+                        </span>
+                        {{orderItem.car.carModel.name}}
+                      </span>
+                      <span class="p-2"> 
+                        <span class="fw-bold">цвят:</span> 
+                        {{orderItem.car.color}} 
+                      </span>
+                      <span class="p-2">
+                        <span class="fw-bold">година:</span> 
+                         {{orderItem.car.year}} 
+                      </span>
+                    </div>
+                    <span class="me-5">
+                       <img class="order-img" [src]="'http://localhost:5020/' + orderItem.car.imageUrl" alt="car">
+                    </span>
+                </div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <div class="alert alert-warning" *ngIf="!orders.length">
+      Нямате направени резервации.
+    </div>
+</div>
   
