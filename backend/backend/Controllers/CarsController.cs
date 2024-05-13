@@ -113,7 +113,6 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            // Assuming images are stored in wwwroot/images
             var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", file.FileName);
 
             using (var stream = new FileStream(path, FileMode.Create))

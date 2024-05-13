@@ -9,7 +9,7 @@
 <div class="my-5" *ngIf="cars.length">
     <div class="container">
       <div class="row">
-        <div class="col-lg-4" *ngFor="let car of cars">
+        <div class="col-lg-4 my-4" *ngFor="let car of cars">
           <div class="card w-100">
             <img [src]="'http://localhost:5020/' + car.imageUrl" class="card-img-top" alt="...">
             <div class="card-body">

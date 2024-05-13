@@ -52,7 +52,7 @@ export class CarsComponent implements OnInit {
       if (this.selectedCars.length) {
         this.carService.orderCars(this.currentUser.id, this.selectedCars).subscribe({
           next: () => {
-            alert('Успешно резервирани автомобили!');
+            alert('Успешно резервирани автомобили за оглед! Екипът ни ще се свърже с вас скоро!');
             this.selectedCars = [];
           },
           error: (err) => alert('Грешка при резервирането на автомобили')
